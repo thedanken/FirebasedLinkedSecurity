@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "103829206845",
+    "project_id": "homesecnewpaltzsd",
+    "storage_bucket": "homesecnewpaltzsd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103829206845:android:f44db033e6d87f74533754",
+        "android_client_info": {
+          "package_name": "com.example.firebasedlinkedsecurity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103829206845-5kmk6kamdmmh452md1iie7q1d19pkig6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7faAauk9RVjS5zhntdEhRBjkWY4VJjrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103829206845-5kmk6kamdmmh452md1iie7q1d19pkig6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
