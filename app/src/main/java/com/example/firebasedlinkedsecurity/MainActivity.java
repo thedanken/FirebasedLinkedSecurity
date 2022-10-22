@@ -2,10 +2,12 @@ package com.example.firebasedlinkedsecurity;
 
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -14,19 +16,25 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.firebasedlinkedsecurity.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.view.*;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private FirebaseAuth FBauth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.v("","onCreate Started");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -35,14 +43,33 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        FBauth = FirebaseAuth.getInstance();
+        BeginSignInRequest signInRequest = BeginSignInRequest.builder()
+                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        // Your server's client ID, not your Android client ID.
+                        .setServerClientId(getString(R.string.default_web_client_id))
+                        // Only show accounts previously used to sign in.
+                        .setFilterByAuthorizedAccounts(true)
+                        .build())
+                .build();
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        Log.v("","onCreate Ended");
+    }
+
+    public void onStart(){
+        super.onStart();
+        Log.v("","onStart Started");
+        FirebaseUser curUser = FBauth.getCurrentUser();
+        Log.v("","FB User grabbed");
+        if(curUser != null)
+        {
+            updateCurrentScreen("Connected");
+        }
+    }
+    public void updateCurrentScreen(String str) {
+        TextView Textfill = (TextView) this.findViewById(R.id.FirebaseConnected);
+        Textfill.setText(str);
     }
 
     @Override
