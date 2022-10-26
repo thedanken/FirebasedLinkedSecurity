@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.auth.java;
+package com.example.firebaselinkedsecurity;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -49,8 +49,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.quickstart.auth.R;
-import com.google.firebase.quickstart.auth.databinding.FragmentGoogleBinding;
+import com.example.firebaselinkedsecurity.R;
+import com.example.firebaselinkedsecurity.databinding.FragmentGoogleBinding;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.

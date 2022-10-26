@@ -1,4 +1,4 @@
-package com.example.firebasedlinkedsecurity;
+package com.example.firebaselinkedsecurity;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 
-import com.google.firebase.quickstart.auth.R;
+import com.example.firebaselinkedsecurity.R;
 
 public class MainActivity extends AppCompatActivity {
 

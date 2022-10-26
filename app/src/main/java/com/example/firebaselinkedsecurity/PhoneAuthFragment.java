@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.auth.java;
+package com.example.firebaselinkedsecurity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -23,8 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.quickstart.auth.R;
-import com.google.firebase.quickstart.auth.databinding.FragmentPhoneAuthBinding;
+import com.example.firebaselinkedsecurity.R;
+import com.example.firebaselinkedsecurity.databinding.FragmentPhoneAuthBinding;
 
 import java.util.concurrent.TimeUnit;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.auth.java;
+package com.example.firebaselinkedsecurity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,8 +35,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthMultiFactorException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.MultiFactorResolver;
-import com.google.firebase.quickstart.auth.R;
-import com.google.firebase.quickstart.auth.databinding.FragmentEmailpasswordBinding;
+import com.example.firebaselinkedsecurity.R;
+import com.example.firebaselinkedsecurity.databinding.FragmentEmailpasswordBinding;
 
 public class EmailPasswordFragment extends BaseFragment {
 
@@ -67,7 +67,7 @@ public class EmailPasswordFragment extends BaseFragment {
                 signIn(email, password);
             }
         });
-        mBinding.signOutButton.setOnClickListener(new View.OnClickListener() {
+        mBinding.emailCreateAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = mBinding.fieldEmail.getText().toString();
@@ -113,7 +113,7 @@ public class EmailPasswordFragment extends BaseFragment {
         if (!validateForm()) {
             return;
         }
-
+        Log.d(TAG,"Create Account Button Pressed");
         showProgressBar();
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -161,7 +161,6 @@ public class EmailPasswordFragment extends BaseFragment {
                             Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
-                            checkForMultiFactorFailure(task.getException());
                         }
 
                         if (!task.isSuccessful()) {
@@ -179,7 +178,7 @@ public class EmailPasswordFragment extends BaseFragment {
 
     private void sendEmailVerification() {
         // Disable button
-        mBinding.verifyEmailButton.setEnabled(false);
+        //mBinding.verifyEmailButton.setEnabled(false);
 
         // Send verification email
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -268,21 +267,6 @@ public class EmailPasswordFragment extends BaseFragment {
             mBinding.emailPasswordButtons.setVisibility(View.VISIBLE);
             mBinding.emailPasswordFields.setVisibility(View.VISIBLE);
             mBinding.signedInButtons.setVisibility(View.GONE);
-        }
-    }
-
-    private void checkForMultiFactorFailure(Exception e) {
-        // Multi-factor authentication with SMS is currently only available for
-        // Google Cloud Identity Platform projects. For more information:
-        // https://cloud.google.com/identity-platform/docs/android/mfa
-        if (e instanceof FirebaseAuthMultiFactorException) {
-            Log.w(TAG, "multiFactorFailure", e);
-            MultiFactorResolver resolver = ((FirebaseAuthMultiFactorException) e).getResolver();
-            Bundle args = new Bundle();
-            args.putParcelable(MultiFactorSignInFragment.EXTRA_MFA_RESOLVER, resolver);
-            args.putBoolean(MultiFactorFragment.RESULT_NEEDS_MFA_SIGN_IN, true);
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_emailpassword_to_mfa, args);
         }
     }
 

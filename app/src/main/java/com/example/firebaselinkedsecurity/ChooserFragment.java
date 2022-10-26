@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.auth.java;
+package com.example.firebaselinkedsecurity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -30,62 +30,38 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.firebase.quickstart.auth.R;
-import com.google.firebase.quickstart.auth.databinding.FragmentChooserBinding;
+import com.example.firebaselinkedsecurity.R;
+import com.example.firebaselinkedsecurity.databinding.FragmentChooserBinding;
 
 /**
  * Simple list-based Fragment to redirect to one of the other Activities. This Fragment does not
  * contain any useful code related to Firebase Authentication. You may want to start with
  * one of the following Files:
  *     {@link GoogleSignInFragment}
- *     {@link FacebookLoginFragment}}
  *     {@link EmailPasswordFragment}
- *     {@link PasswordlessActivity}
  *     {@link PhoneAuthFragment}
- *     {@link AnonymousAuthFragment}
- *     {@link CustomAuthFragment}
- *     {@link GenericIdpFragment}
- *     {@link MultiFactorFragment}
  */
 public class ChooserFragment extends Fragment {
 
     private static final int[] NAV_ACTIONS = new int[]{
             R.id.action_google,
-            R.id.action_facebook,
             R.id.action_emailpassword,
-            R.id.action_passwordless,
             R.id.action_phoneauth,
-            R.id.action_anonymousauth,
             R.id.action_firebaseui,
-            R.id.action_customauth,
-            R.id.action_genericidp,
-            R.id.action_mfa,
     };
 
     private static final String [] CLASS_NAMES = new String[] {
             "GoogleSignInFragment",
-            "FacebookLoginFragment",
             "EmailPasswordFragment",
-            "PasswordlessActivity",
             "PhoneAuthFragment",
-            "AnonymousAuthFragment",
             "FirebaseUIFragment",
-            "CustomAuthFragment",
-            "GenericIdpFragment",
-            "MultiFactorFragment",
     };
 
     private static final int[] DESCRIPTION_IDS = new int[] {
             R.string.desc_google_sign_in,
-            R.string.desc_facebook_login,
             R.string.desc_emailpassword,
-            R.string.desc_passwordless,
             R.string.desc_phone_auth,
-            R.string.desc_anonymous_auth,
             R.string.desc_firebase_ui,
-            R.string.desc_custom_auth,
-            R.string.desc_generic_idp,
-            R.string.desc_multi_factor,
     };
 
     private FragmentChooserBinding mBinding;

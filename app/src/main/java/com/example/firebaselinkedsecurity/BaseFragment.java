@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.auth.java;
+package com.example.firebaselinkedsecurity;
 
 import android.content.Context;
 import android.view.View;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Firebase Authentication</string>
+    <string name="app_name">Firebase Tester</string>
 
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
@@ -83,4 +83,20 @@
 
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
+    <string name="reload">Reload</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="generic_title_text">Title</string>
+    <string name="generic_label_provider">Label</string>
+    <string name="label_multi_factor">Multi-Factor</string>
+    <string name="enroll_mfa">Enroll Multi-Factor</string>
+    <string name="unenroll_mfa">Unenroll Multi-Factor</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_first_fragment">FirstFrags</string>
+    <string name="multi_factor_signed_out">Multi-Factor Signed Out</string>
+    <string name="desc_generic_idp">Generic IDP</string>
+    <string name="desc_multi_factor">Allows for more secure logins</string>
+    <string name="generic_signin_fmt">Sign In Format</string>
+    <string name="error_sign_in_failed">Sign in failed</string>
+    <string name="generic_status_fmt">a</string>
 </resources>
