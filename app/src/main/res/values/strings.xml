@@ -9,6 +9,19 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="FirebaseConnected">Name</string>
-    <string name="not_connected">Not Connected</string>
+    <string name="desc_firebase_lockup">Not Connected</string>
+    <string name="custom_token">Not Connected</string>
+    <string name="token_null">Not Connected</string>
+    <string name="firebase_user_management">Not Connected</string>
+    <string name="signed_out">Not Connected</string>
+    <string name="signed_in">Not Connected</string>
+    <string name="sign_in">Not Connected</string>
+    <string name="sign_out">Not Connected</string>
+    <string name="emailpassword_title_text">Not Connected</string>
+    <string name="create_account">Not Connected</string>
+    <string name="hint_email">Not Connected</string>
+    <string name="hint_password">Not Connected</string>
+    <string name="verify_email">Not Connected</string>
+    <string name="reload">Not Connected</string>
+    <string name="firebaseui_title_text">Not Connected</string>
 </resources>
