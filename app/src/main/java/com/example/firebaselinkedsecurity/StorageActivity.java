@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.firebasestorage.java;
+package com.example.firebaselinkedsecurity;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -39,7 +39,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.quickstart.firebasestorage.R;
+import com.example.firebaselinkedsecurity.R;
 
 import java.util.Locale;
 
@@ -49,7 +49,7 @@ import java.util.Locale;
  * See {@link MyUploadService} for upload example.
  * See {@link MyDownloadService} for download example.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class StorageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Storage#MainActivity";
 

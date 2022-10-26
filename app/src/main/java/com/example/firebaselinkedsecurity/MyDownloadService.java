@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.firebasestorage.java;
+package com.example.firebaselinkedsecurity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,7 +27,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.quickstart.firebasestorage.R;
+import com.example.firebaselinkedsecurity.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;

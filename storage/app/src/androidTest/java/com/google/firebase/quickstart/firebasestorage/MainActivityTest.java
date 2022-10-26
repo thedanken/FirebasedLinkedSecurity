@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.firebasestorage;
+package com.example.firebaselinkedsecurity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,8 +15,8 @@ import androidx.test.runner.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import android.util.Log;
 
-import com.google.firebase.quickstart.firebasestorage.java.MainActivity;
-import com.google.firebase.quickstart.firebasestorage.java.MyUploadService;
+import com.example.firebaselinkedsecurity.java.MainActivity;
+import com.example.firebaselinkedsecurity.java.MyUploadService;
 
 import org.hamcrest.Matcher;
 import org.junit.After;

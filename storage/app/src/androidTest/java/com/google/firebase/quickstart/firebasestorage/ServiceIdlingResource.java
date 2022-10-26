@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.firebasestorage;
+package com.example.firebaselinkedsecurity;
 
 import android.app.ActivityManager;
 import android.content.Context;
