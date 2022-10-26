@@ -2,27 +2,45 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/ChooserFragment"
+    android:id="@+id/nav_graph_java">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.firebasedlinkedsecurity.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/ChooserFragment"
+        android:name="com.example.firebaselinkedsecurity.ChooserFragment">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_emailpassword"
+            app:destination="@id/EmailPasswordFragment" />
+
+        <action
+            android:id="@+id/action_firebaseui"
+            app:destination="@id/FirebaseUIFragment" />
+
+        <action
+            android:id="@+id/action_google"
+            app:destination="@id/GoogleSignInFragment" />
+
+        <action
+            android:id="@+id/action_phoneauth"
+            app:destination="@id/PhoneAuthFragment" />
+
     </fragment>
+
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.firebasedlinkedsecurity.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/EmailPasswordFragment"
+        android:name="com.example.firebaselinkedsecurity.EmailPasswordFragment" />
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+    <fragment
+        android:id="@+id/FirebaseUIFragment"
+        android:name="com.example.firebaselinkedsecurity.FirebaseUIFragment" />
+
+    <fragment
+        android:id="@+id/GoogleSignInFragment"
+        android:name="com.example.firebaselinkedsecurity.GoogleSignInFragment" />
+
+    <fragment
+        android:id="@+id/PhoneAuthFragment"
+        android:name="com.example.firebaselinkedsecurity.PhoneAuthFragment" />
+
 </navigation>

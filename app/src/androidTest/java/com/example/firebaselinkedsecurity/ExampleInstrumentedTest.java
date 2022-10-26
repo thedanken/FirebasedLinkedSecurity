@@ -1,4 +1,4 @@
-package com.example.firebasedlinkedsecurity;
+package com.example.firebaselinkedsecurity;
 
 import android.content.Context;
 
