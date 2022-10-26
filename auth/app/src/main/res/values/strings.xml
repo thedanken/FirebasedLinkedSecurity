@@ -34,8 +34,12 @@
     <string name="create_account">Create Account</string>
     <string name="send_link">Send Link</string>
     <string name="sign_out">Sign Out</string>
+<<<<<<< HEAD
     <string name="verify_email">Verify Email</string>
     <string name="disconnect">Disconnect</string>
+=======
+    <string name="verify_email">Verify</string>
+>>>>>>> ca98305e (Replace Google Sign In with Google Identity Services (#1384))
     <string name="loading">Loading…</string>
     <string name="custom_token">Custom Token</string>
     <string name="signed_in">Signed In</string>
