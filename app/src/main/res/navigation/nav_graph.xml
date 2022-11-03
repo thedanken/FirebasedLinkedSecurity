@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_phoneauth"
             app:destination="@id/PhoneAuthFragment" />
+        <action
+            android:id="@+id/action_ChooserFragment_to_storageActivity"
+            app:destination="@id/action_storage" />
 
     </fragment>
 
@@ -42,5 +45,9 @@
     <fragment
         android:id="@+id/PhoneAuthFragment"
         android:name="com.example.firebaselinkedsecurity.PhoneAuthFragment" />
+    <activity
+        android:id="@+id/action_storage"
+        android:name="com.example.firebaselinkedsecurity.StorageActivity"
+        android:label="StorageActivity" />
 
 </navigation>

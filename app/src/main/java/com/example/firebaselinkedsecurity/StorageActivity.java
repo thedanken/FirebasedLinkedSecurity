@@ -23,17 +23,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.firebaselinkedsecurity.databinding.FragmentFirebaseUiBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -49,7 +55,7 @@ import java.util.Locale;
  * See {@link MyUploadService} for upload example.
  * See {@link MyDownloadService} for download example.
  */
-public class StorageActivity extends AppCompatActivity implements View.OnClickListener {
+public class StorageActivity extends Fragment {
 
     private static final String TAG = "Storage#MainActivity";
 
@@ -65,27 +71,37 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
     private Uri mDownloadUrl = null;
     private Uri mFileUri = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    private FragmentFirebaseUiBinding mBinding;
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mBinding = FragmentFirebaseUiBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         // Click listeners
-        findViewById(R.id.buttonCamera).setOnClickListener(this);
-        findViewById(R.id.buttonSignIn).setOnClickListener(this);
-        findViewById(R.id.buttonDownload).setOnClickListener(this);
+        mBinding.buttonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera();
+            }
+        });
+        mBinding.buttonDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beginDownload();
+            }
+        });
 
         // Restore instance state
         if (savedInstanceState != null) {
             mFileUri = savedInstanceState.getParcelable(KEY_FILE_URI);
             mDownloadUrl = savedInstanceState.getParcelable(KEY_DOWNLOAD_URL);
         }
-        onNewIntent(getIntent());
-
-        // Local broadcast receiver
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -119,17 +135,6 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        // Check if this Activity was launched by clicking on an upload notification
-        if (intent.hasExtra(MyUploadService.EXTRA_DOWNLOAD_URL)) {
-            onUploadResultIntent(intent);
-        }
-
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         updateUI(mAuth.getCurrentUser());
@@ -156,10 +161,10 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
         if (requestCode == RC_TAKE_PICTURE) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 mFileUri = data.getData();
 
                 if (mFileUri != null) {
@@ -168,7 +173,7 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
                     Log.w(TAG, "File URI is null");
                 }
             } else {
-                Toast.makeText(this, "Taking picture failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(, "Taking picture failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -216,28 +221,6 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
         startActivityForResult(intent, RC_TAKE_PICTURE);
     }
 
-    private void signInAnonymously() {
-        // Sign in anonymously. Authentication is required to read or write from Firebase Storage.
-        showProgressDialog(getString(R.string.progress_auth));
-        mAuth.signInAnonymously()
-                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Log.d(TAG, "signInAnonymously:SUCCESS");
-                        hideProgressDialog();
-                        updateUI(authResult.getUser());
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e(TAG, "signInAnonymously:FAILURE", exception);
-                        hideProgressDialog();
-                        updateUI(null);
-                    }
-                });
-    }
-
     private void onUploadResultIntent(Intent intent) {
         // Got a new intent from MyUploadService with a success or failure
         mDownloadUrl = intent.getParcelableExtra(MyUploadService.EXTRA_DOWNLOAD_URL);
@@ -249,22 +232,18 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
     private void updateUI(FirebaseUser user) {
         // Signed in or Signed out
         if (user != null) {
-            findViewById(R.id.layoutSignin).setVisibility(View.GONE);
-            findViewById(R.id.layoutStorage).setVisibility(View.VISIBLE);
+            mBinding.layoutStorage.setVisibility(View.VISIBLE);
         } else {
-            findViewById(R.id.layoutSignin).setVisibility(View.VISIBLE);
-            findViewById(R.id.layoutStorage).setVisibility(View.GONE);
+            mBinding.layoutStorage.setVisibility(View.GONE);
         }
 
         // Download URL and Download button
         if (mDownloadUrl != null) {
-            ((TextView) findViewById(R.id.pictureDownloadUri))
-                    .setText(mDownloadUrl.toString());
-            findViewById(R.id.layoutDownload).setVisibility(View.VISIBLE);
+            ((TextView) mBinding.pictureDownloadUri.setText(mDownloadUrl.toString());
+            mBinding.layoutDownload.setVisibility(View.VISIBLE);
         } else {
-            ((TextView) findViewById(R.id.pictureDownloadUri))
-                    .setText(null);
-            findViewById(R.id.layoutDownload).setVisibility(View.GONE);
+            ((TextView) mBinding.pictureDownloadUri.setText(null);
+            mBinding.layoutDownload.setVisibility(View.GONE);
         }
     }
 
@@ -289,24 +268,6 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == R.id.action_logout) {
-            FirebaseAuth.getInstance().signOut();
-            updateUI(null);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
         }
     }
 

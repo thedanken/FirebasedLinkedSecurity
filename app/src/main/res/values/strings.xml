@@ -28,6 +28,9 @@
     <string name="label_firebase_ui">FirebaseUI Auth</string>
     <string name="desc_firebase_ui">Use the FirebaseUI-Android library to authenticate with Firebase.</string>
 
+    <string name="label_firebase_storage">Firebase Storage</string>
+    <string name="desc_firebase_storage">Use the FirebaseUI-Android library to store files on Firebase.</string>
+
     <string name="hint_user_id">User ID</string>
     <string name="get_custom_token">Get Token</string>
     <string name="sign_in">Sign In</string>
@@ -101,7 +104,7 @@
     <string name="generic_status_fmt">a</string>
 
 
-    
+
     <string name="camera_button_text">Upload</string>
     <string name="sign_in_prompt">Sign In to begin</string>
     <string name="take_photo_prompt">Upload a Photo</string>

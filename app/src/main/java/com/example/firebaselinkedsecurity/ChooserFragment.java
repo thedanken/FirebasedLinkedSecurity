@@ -48,6 +48,7 @@ public class ChooserFragment extends Fragment {
             R.id.action_emailpassword,
             R.id.action_phoneauth,
             R.id.action_firebaseui,
+            R.id.action_storage
     };
 
     private static final String [] CLASS_NAMES = new String[] {
@@ -55,6 +56,7 @@ public class ChooserFragment extends Fragment {
             "EmailPasswordFragment",
             "PhoneAuthFragment",
             "FirebaseUIFragment",
+            "StorageFragment"
     };
 
     private static final int[] DESCRIPTION_IDS = new int[] {
@@ -62,6 +64,7 @@ public class ChooserFragment extends Fragment {
             R.string.desc_emailpassword,
             R.string.desc_phone_auth,
             R.string.desc_firebase_ui,
+            R.string.desc_firebase_storage,
     };
 
     private FragmentChooserBinding mBinding;

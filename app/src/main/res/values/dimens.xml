@@ -7,4 +7,8 @@
     <dimen name="button_horizontal_margin">8dp</dimen>
     <dimen name="icon_top_margin">8dp</dimen>
     <dimen name="icon_bottom_margin">8dp</dimen>
+
+    <dimen name="standard_field_width">160dp</dimen>
+    <dimen name="margin_1">8dp</dimen>
+    <dimen name="margin_2">16dp</dimen>
 </resources>
