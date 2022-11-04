@@ -24,28 +24,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.app.Activity;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.firebaselinkedsecurity.databinding.FragmentFirebaseUiBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
+import com.example.firebaselinkedsecurity.databinding.FragmentFilesBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.firebaselinkedsecurity.R;
 
 import java.util.Locale;
 
@@ -55,9 +51,9 @@ import java.util.Locale;
  * See {@link MyUploadService} for upload example.
  * See {@link MyDownloadService} for download example.
  */
-public class StorageActivity extends Fragment {
+public class StorageFragment extends Fragment{
 
-    private static final String TAG = "Storage#MainActivity";
+    private static final String TAG = "StorageActivity";
 
     private static final int RC_TAKE_PICTURE = 101;
 
@@ -67,21 +63,28 @@ public class StorageActivity extends Fragment {
     private BroadcastReceiver mBroadcastReceiver;
     private ProgressDialog mProgressDialog;
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
     private Uri mDownloadUrl = null;
     private Uri mFileUri = null;
 
-    private FragmentFirebaseUiBinding mBinding;
+    private FragmentFilesBinding mBinding;
+    private LocalBroadcastManager manager;
 
-    @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentFirebaseUiBinding.inflate(inflater, container, false);
+        mBinding = FragmentFilesBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
-    @Override
+
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        updateUI(mUser);
+        manager = LocalBroadcastManager.getInstance(this.requireActivity());
+        manager.registerReceiver(mBroadcastReceiver, MyDownloadService.getIntentFilter());
+        manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
 
         // Click listeners
         mBinding.buttonCamera.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +105,7 @@ public class StorageActivity extends Fragment {
             mFileUri = savedInstanceState.getParcelable(KEY_FILE_URI);
             mDownloadUrl = savedInstanceState.getParcelable(KEY_DOWNLOAD_URL);
         }
+
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -135,25 +139,6 @@ public class StorageActivity extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        updateUI(mAuth.getCurrentUser());
-
-        // Register receiver for uploads and downloads
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        manager.registerReceiver(mBroadcastReceiver, MyDownloadService.getIntentFilter());
-        manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // Unregister download receiver
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle out) {
         super.onSaveInstanceState(out);
         out.putParcelable(KEY_FILE_URI, mFileUri);
@@ -173,7 +158,7 @@ public class StorageActivity extends Fragment {
                     Log.w(TAG, "File URI is null");
                 }
             } else {
-                Toast.makeText(, "Taking picture failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.requireActivity(), "Taking picture failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -190,9 +175,11 @@ public class StorageActivity extends Fragment {
 
         // Start MyUploadService to upload the file, so that the file is uploaded
         // even if this Activity is killed or put in the background
-        startService(new Intent(this, MyUploadService.class)
+        Intent intent = new Intent(this.requireActivity(), MyUploadService.class)
                 .putExtra(MyUploadService.EXTRA_FILE_URI, fileUri)
-                .setAction(MyUploadService.ACTION_UPLOAD));
+                .setAction(MyUploadService.ACTION_UPLOAD);
+        uploadResultLauncher.launch(intent);
+
 
         // Show loading spinner
         showProgressDialog(getString(R.string.progress_uploading));
@@ -203,10 +190,10 @@ public class StorageActivity extends Fragment {
         String path = "photos/" + mFileUri.getLastPathSegment();
 
         // Kick off MyDownloadService to download the file
-        Intent intent = new Intent(this, MyDownloadService.class)
+        Intent intent = new Intent(this.requireActivity(), MyDownloadService.class)
                 .putExtra(MyDownloadService.EXTRA_DOWNLOAD_PATH, path)
                 .setAction(MyDownloadService.ACTION_DOWNLOAD);
-        startService(intent);
+        downloadResultLauncher.launch(intent);
 
         // Show loading spinner
         showProgressDialog(getString(R.string.progress_downloading));
@@ -231,24 +218,23 @@ public class StorageActivity extends Fragment {
 
     private void updateUI(FirebaseUser user) {
         // Signed in or Signed out
-        if (user != null) {
-            mBinding.layoutStorage.setVisibility(View.VISIBLE);
-        } else {
-            mBinding.layoutStorage.setVisibility(View.GONE);
+        mBinding.layoutStorage.setVisibility(View.VISIBLE);
+        if (user == null) {
+            mUser = mAuth.getCurrentUser();
         }
 
         // Download URL and Download button
         if (mDownloadUrl != null) {
-            ((TextView) mBinding.pictureDownloadUri.setText(mDownloadUrl.toString());
+            mBinding.pictureDownloadUri.setText(mDownloadUrl.toString());
             mBinding.layoutDownload.setVisibility(View.VISIBLE);
         } else {
-            ((TextView) mBinding.pictureDownloadUri.setText(null);
+            mBinding.pictureDownloadUri.setText(null);
             mBinding.layoutDownload.setVisibility(View.GONE);
         }
     }
 
     private void showMessageDialog(String title, String message) {
-        AlertDialog ad = new AlertDialog.Builder(this)
+        AlertDialog ad = new AlertDialog.Builder(this.requireActivity())
                 .setTitle(title)
                 .setMessage(message)
                 .create();
@@ -257,7 +243,7 @@ public class StorageActivity extends Fragment {
 
     private void showProgressDialog(String caption) {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog = new ProgressDialog(this.requireActivity());
             mProgressDialog.setIndeterminate(true);
         }
 
@@ -271,15 +257,11 @@ public class StorageActivity extends Fragment {
         }
     }
 
-    @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.buttonCamera) {
             launchCamera();
-        } else if (i == R.id.buttonSignIn) {
-            signInAnonymously();
-        } else if (i == R.id.buttonDownload) {
+        } else
             beginDownload();
-        }
     }
 }
