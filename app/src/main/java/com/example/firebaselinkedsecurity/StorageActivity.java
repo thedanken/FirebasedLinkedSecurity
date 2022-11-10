@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.firebasestorage.java;
+package com.example.firebaselinkedsecurity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,13 +33,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.firebaselinkedsecurity.databinding.ActivityMainBinding;
+import com.example.firebaselinkedsecurity.databinding.FragmentFirebaseUiBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.quickstart.firebasestorage.R;
-import com.google.firebase.quickstart.firebasestorage.databinding.ActivityMainBinding;
+import com.example.firebaselinkedsecurity.R;
 
 import java.util.Locale;
 
@@ -49,7 +50,7 @@ import java.util.Locale;
  * See {@link MyUploadService} for upload example.
  * See {@link MyDownloadService} for download example.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class StorageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Storage#MainActivity";
 
@@ -62,23 +63,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Uri mDownloadUrl = null;
     private Uri mFileUri = null;
 
-    private ActivityMainBinding binding;
-
     private ActivityResultLauncher<String[]> intentLauncher;
+
+    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+
         // Click listeners
-        binding.buttonCamera.setOnClickListener(this);
-        binding.buttonSignIn.setOnClickListener(this);
-        binding.buttonDownload.setOnClickListener(this);
+        mBinding.buttonCamera.setOnClickListener(this);
+        mBinding.buttonDownload.setOnClickListener(this);
 
         // Restore instance state
         if (savedInstanceState != null) {
@@ -238,22 +237,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateUI(FirebaseUser user) {
-        // Signed in or Signed out
-        if (user != null) {
-            binding.layoutSignin.setVisibility(View.GONE);
-            binding.layoutStorage.setVisibility(View.VISIBLE);
-        } else {
-            binding.layoutSignin.setVisibility(View.VISIBLE);
-            binding.layoutStorage.setVisibility(View.GONE);
-        }
-
         // Download URL and Download button
         if (mDownloadUrl != null) {
-            binding.pictureDownloadUri.setText(mDownloadUrl.toString());
-            binding.layoutDownload.setVisibility(View.VISIBLE);
+            mBinding.pictureDownloadUri.setText(mDownloadUrl.toString());
+            mBinding.layoutDownload.setVisibility(View.VISIBLE);
         } else {
-            binding.pictureDownloadUri.setText(null);
-            binding.layoutDownload.setVisibility(View.GONE);
+            mBinding.pictureDownloadUri.setText(null);
+            mBinding.layoutDownload.setVisibility(View.GONE);
         }
     }
 
@@ -266,13 +256,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showProgressBar(String caption) {
-        binding.caption.setText(caption);
-        binding.progressBar.setVisibility(View.VISIBLE);
+        mBinding.caption.setText(caption);
+        mBinding.progressBar.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
-        binding.caption.setText("");
-        binding.progressBar.setVisibility(View.INVISIBLE);
+        mBinding.caption.setText("");
+        mBinding.progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -282,24 +272,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == R.id.action_logout) {
-            FirebaseAuth.getInstance().signOut();
-            updateUI(null);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.buttonCamera) {
             launchCamera();
-        } else if (i == R.id.buttonSignIn) {
-            signInAnonymously();
         } else if (i == R.id.buttonDownload) {
             beginDownload();
         }

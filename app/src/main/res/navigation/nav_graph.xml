@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/ChooserFragment"
-    android:id="@+id/nav_graph_java">
+    android:id="@+id/nav_host_fragment">
 
     <fragment
         android:id="@+id/ChooserFragment"
@@ -25,8 +25,8 @@
             android:id="@+id/action_phoneauth"
             app:destination="@id/PhoneAuthFragment" />
         <action
-            android:id="@+id/action_ChooserFragment_to_storageFragment"
-            app:destination="@id/action_storage" />
+            android:id="@+id/action_ChooserFragment_to_storeActivity"
+            app:destination="@id/storeActivity" />
 
     </fragment>
 
@@ -45,9 +45,9 @@
     <fragment
         android:id="@+id/PhoneAuthFragment"
         android:name="com.example.firebaselinkedsecurity.PhoneAuthFragment" />
-    <fragment
-        android:id="@+id/action_storage"
-        android:name="com.example.firebaselinkedsecurity.StorageFragment"
-        android:label="StorageFragment" />
+    <activity
+        android:id="@+id/storeActivity"
+        android:name="com.example.firebaselinkedsecurity.StorageActivity"
+        android:label="StorageActivity" />
 
 </navigation>

@@ -48,7 +48,7 @@ public class ChooserFragment extends Fragment {
             R.id.action_emailpassword,
             R.id.action_phoneauth,
             R.id.action_firebaseui,
-            R.id.action_storage
+            R.id.storeActivity
     };
 
     private static final String [] CLASS_NAMES = new String[] {
