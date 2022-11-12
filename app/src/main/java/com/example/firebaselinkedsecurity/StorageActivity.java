@@ -33,7 +33,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.firebaselinkedsecurity.databinding.ActivityMainBinding;
+import com.example.firebaselinkedsecurity.databinding.FragmentFilesBinding;
 import com.example.firebaselinkedsecurity.databinding.FragmentFirebaseUiBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,7 +65,7 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
 
     private ActivityResultLauncher<String[]> intentLauncher;
 
-    private ActivityMainBinding mBinding;
+    private FragmentFilesBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        mBinding = FragmentFilesBinding.inflate(getLayoutInflater());
 
         // Click listeners
         mBinding.buttonCamera.setOnClickListener(this);

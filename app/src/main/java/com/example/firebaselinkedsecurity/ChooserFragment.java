@@ -17,6 +17,7 @@
 package com.example.firebaselinkedsecurity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,8 +89,16 @@ public class ChooserFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int destination = NAV_ACTIONS[position];
-                NavHostFragment.findNavController(ChooserFragment.this)
+                if(destination == R.id.storeActivity)
+                {
+                    Intent intent = new Intent(getActivity(), StorageActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    NavHostFragment.findNavController(ChooserFragment.this)
                         .navigate(destination);
+                }
             }
         });
     }
