@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 check.dependsOn 'assembleDebugAndroidTest'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
     flavorDimensions "minSdkVersion"
 
     defaultConfig {
@@ -27,7 +27,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
 }

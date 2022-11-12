@@ -74,6 +74,7 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
         mAuth = FirebaseAuth.getInstance();
 
         mBinding = FragmentFilesBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         // Click listeners
         mBinding.buttonCamera.setOnClickListener(this);
@@ -238,6 +239,7 @@ public class StorageActivity extends AppCompatActivity implements View.OnClickLi
 
     private void updateUI(FirebaseUser user) {
         // Download URL and Download button
+        mBinding.layoutStorage.setVisibility(View.VISIBLE);
         if (mDownloadUrl != null) {
             mBinding.pictureDownloadUri.setText(mDownloadUrl.toString());
             mBinding.layoutDownload.setVisibility(View.VISIBLE);
